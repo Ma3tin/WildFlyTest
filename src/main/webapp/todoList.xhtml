@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+</h:head>
+<f:view>
+    <!-- Header -->
+    <div class="container">
+        <div class="navbar navbar-light bg-light">
+            <span class="strong"><span class="text-primary">My</span>Tasks</span>
+        </div>
+
+        <!-- Getting tasks from form -->
+        <h:form styleClass="form-group w-25 d-flex flex-row ">
+            <div class="col-auto">
+                <label>Task name</label>
+                <h:inputText value="#{taskRepository.input}" styleClass="form-control"/>
+            </div>
+
+            <div class="col-auto d-flex align-items-end">
+                <h:commandButton styleClass="btn btn-primary ms-3" value="Send" action="#{taskRepository.addInput()}"/>
+            </div>
+        </h:form>
+
+        <!-- Printing actived tasks -->
+        <c:if test="#{taskRepository.activeTasks.size() != 0}">
+            <h:form>
+                <h1>Active tasks</h1>
+                <ui:repeat value="#{taskRepository.activeTasks}" var="n">
+                    <div class="d-flex flex-row my-3">
+                        #{n.name}
+                        <h:commandButton styleClass="btn btn-success ms-3" value="Finish"
+                                         action="#{taskRepository.finishTask(n)}"/>
+                    </div>
+                </ui:repeat>
+            </h:form>
+        </c:if>
+
+        <!-- Printing Finished tasks -->
+        <c:if test="#{taskRepository.finishedTasks.size() != 0}">
+            <h:form>
+                <h1>Finished tasks</h1>
+                <ui:repeat value="#{taskRepository.finishedTasks}" var="n">
+                    <div class="d-flex flex-row my-3">
+                        #{n.name}
+                        <h:commandButton styleClass="btn btn-danger ms-3" value="Finish"
+                                         action="#{taskRepository.deleteTask(n)}"/>
+                    </div>
+                </ui:repeat>
+            </h:form>
+        </c:if>
+    </div>
+</f:view>
+
+
+</html>
